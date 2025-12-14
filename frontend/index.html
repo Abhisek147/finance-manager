@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>💰 Finance</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link active" data-page="dashboard">📊 Dashboard</a></li>
+                <li><a href="#" class="nav-link" data-page="transactions">💳 Transactions</a></li>
+                <li><a href="#" class="nav-link" data-page="reports">📈 Reports</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <header class="page-header">
+                    <h1>Dashboard</h1>
+                    <button class="btn btn-primary" onclick="showAddTransaction()">+ Add Transaction</button>
+                </header>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card income">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <h3>Total Income</h3>
+                            <p class="stat-value" id="totalIncome">$0.00</p>
+                        </div>
+                    </div>
+                    <div class="stat-card expense">
+                        <div class="stat-icon">💸</div>
+                        <div class="stat-content">
+                            <h3>Total Expenses</h3>
+                            <p class="stat-value" id="totalExpense">$0.00</p>
+                        </div>
+                    </div>
+                    <div class="stat-card balance">
+                        <div class="stat-icon">💳</div>
+                        <div class="stat-content">
+                            <h3>Balance</h3>
+                            <p class="stat-value" id="balance">$0.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Category Spending</h3>
+                        <canvas id="categoryChart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Monthly Trend</h3>
+                        <canvas id="trendChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions Page -->
+            <div id="transactions" class="page">
+                <header class="page-header">
+                    <h1>Transactions</h1>
+                    <button class="btn btn-primary" onclick="showAddTransaction()">+ Add Transaction</button>
+                </header>
+
+                <!-- Filters -->
+                <div class="filters">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="">All Categories</option>
+                    </select>
+                    <input type="date" id="dateFrom" class="filter-input">
+                    <input type="date" id="dateTo" class="filter-input">
+                    <button class="btn btn-secondary" onclick="applyFilters()">Filter</button>
+                    <button class="btn btn-secondary" onclick="exportCSV()">Export CSV</button>
+                </div>
+
+                <!-- Transactions Table -->
+                <div class="table-container">
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Note</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Page -->
+            <div id="reports" class="page">
+                <header class="page-header">
+                    <h1>Reports & Analytics</h1>
+                </header>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Monthly Summary</h3>
+                        <div id="monthlyReport"></div>
+                    </div>
+                    <div class="report-card">
+                        <h3>Predictions</h3>
+                        <div id="predictionsReport"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Transaction Modal -->
+    <div id="transactionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Transaction</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="transactionForm">
+                <input type="hidden" id="transactionId">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="transactionType" required>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="transactionAmount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="transactionCategory" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="transactionDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="transactionNote" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
